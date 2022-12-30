@@ -9,7 +9,11 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "user")
@@ -49,6 +53,14 @@ public class User {
     @NotNull
     @Column(name = "role")
     private Role role = Role.getDefaultRole();
+
+    @CreationTimestamp
+    @Column(name = "created_date")
+    private LocalDateTime createdDate;
+
+    @UpdateTimestamp
+    @Column(name = "updated_date")
+    private LocalDateTime updatedDate;
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "profile_id", referencedColumnName = "id")

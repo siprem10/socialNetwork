@@ -10,6 +10,7 @@ import lombok.ToString;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter @Setter @ToString
 public class UserDto {
@@ -41,4 +42,10 @@ public class UserDto {
     private Gender gender;
 
     private Role role = Role.getDefaultRole();
+
+    @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
+    private LocalDateTime createdDate;
+
+    @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
+    private LocalDateTime updatedDate;
 }

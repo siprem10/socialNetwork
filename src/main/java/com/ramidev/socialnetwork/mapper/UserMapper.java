@@ -16,6 +16,8 @@ public class UserMapper {
         user.setPassword(userDto.getPassword());
         user.setBirthdate(userDto.getBirthdate());
         user.setGender(userDto.getGender());
+        user.setCreatedDate(userDto.getCreatedDate());
+        user.setUpdatedDate(userDto.getUpdatedDate());
         return user;
     }
 
@@ -28,6 +30,8 @@ public class UserMapper {
         userDto.setPassword(user.getPassword());
         userDto.setBirthdate(user.getBirthdate());
         userDto.setGender(user.getGender());
+        userDto.setCreatedDate(user.getCreatedDate());
+        userDto.setUpdatedDate(user.getUpdatedDate());
         return userDto;
     }
 }
