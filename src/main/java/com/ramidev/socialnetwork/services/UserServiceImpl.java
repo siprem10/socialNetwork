@@ -92,18 +92,22 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto editByEmail(String email, UserEditDto userEditDto) {
-        User user = userMapper.toEntitiy(getByEmail(email));
-        user.setFirstname(userEditDto.getFirstname());
-        user.setLastname(userEditDto.getLastname());
-        user.setBirthdate(userEditDto.getBirthdate());
-        user.setGender(userEditDto.getGender());
+        User user = userRepository.findByEmail(email).map(data -> {
+                data.setFirstname(userEditDto.getFirstname());
+                data.setLastname(userEditDto.getLastname());
+                data.setBirthdate(userEditDto.getBirthdate());
+                data.setGender(userEditDto.getGender());
+                return data;
+            })
+            .orElseThrow(() -> new NotFoundException(String.format("El usuario %s no existe!", email)));
 
         return userMapper.toDto(userRepository.save(user));
     }
 
     @Override
     public UserDto editPasswordByEmail(String email, UserEditPasswordDto userEditPasswordDto) {
-        User user = userMapper.toEntitiy(getByEmail(email));
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new NotFoundException(String.format("El usuario %s no existe!", email)));
 
         if(!Password.pwdCompare(userEditPasswordDto.getPassword(), user.getPassword()))
             throw new ForbiddenException("Contraseña antigua incorrecta!");
@@ -115,6 +119,32 @@ public class UserServiceImpl implements UserService {
 
         return userMapper.toDto(userRepository.save(user));
     }
+
+//    @Override
+//    public UserDto editByEmail(String email, UserEditDto userEditDto) {
+//        User user = userMapper.toEntitiy(getByEmail(email));
+//        user.setFirstname(userEditDto.getFirstname());
+//        user.setLastname(userEditDto.getLastname());
+//        user.setBirthdate(userEditDto.getBirthdate());
+//        user.setGender(userEditDto.getGender());
+//
+//        return userMapper.toDto(userRepository.save(user));
+//    }
+
+//    @Override
+//    public UserDto editPasswordByEmail(String email, UserEditPasswordDto userEditPasswordDto) {
+//        User user = userMapper.toEntitiy(getByEmail(email));
+//
+//        if(!Password.pwdCompare(userEditPasswordDto.getPassword(), user.getPassword()))
+//            throw new ForbiddenException("Contraseña antigua incorrecta!");
+//
+//        if(userEditPasswordDto.getPassword().equals(userEditPasswordDto.getNewPassword()))
+//            throw new ForbiddenException("La nueva contraseña no puede ser la misma!");
+//
+//        user.setPassword(Password.pwdEncoder(userEditPasswordDto.getNewPassword()));
+//
+//        return userMapper.toDto(userRepository.save(user));
+//    }
 
     @Override
     public String deleteByEmail(String email) {
