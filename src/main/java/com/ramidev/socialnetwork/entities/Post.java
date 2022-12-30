@@ -8,9 +8,6 @@ import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-
-import java.security.Timestamp;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
@@ -30,14 +27,11 @@ public class Post {
     @Column(name = "image_url")
     private String imageUrl;
 
-    @NotNull
     @CreationTimestamp
-    @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
     @Column(name = "created_date")
     private LocalDateTime createdDate;
 
     @UpdateTimestamp
-    @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
     @Column(name = "updated_date")
     private LocalDateTime updatedDate;
 

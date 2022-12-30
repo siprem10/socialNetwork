@@ -8,8 +8,6 @@ import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -25,14 +23,11 @@ public class Comment {
     @Column(name = "description")
     private String description;
 
-    @NotNull
     @CreationTimestamp
-    @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
     @Column(name = "created_date")
     private LocalDateTime createdDate;
 
     @UpdateTimestamp
-    @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
     @Column(name = "updated_date")
     private LocalDateTime updatedDate;
 
