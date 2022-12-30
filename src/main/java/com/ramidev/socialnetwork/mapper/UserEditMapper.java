@@ -1,19 +1,21 @@
 package com.ramidev.socialnetwork.mapper;
 
-import com.ramidev.socialnetwork.dto.UserEditDto;
+import com.ramidev.socialnetwork.dto.user.UserEditDto;
 import com.ramidev.socialnetwork.entities.User;
 import org.springframework.stereotype.Component;
 
 @Component
 public class UserEditMapper {
 
-    public User toEntity(UserEditDto userEditDto){
+    public User toEntity(UserEditDto dto){
         User user = new User();
-        user.setId(userEditDto.getId());
-        user.setFirstname(userEditDto.getFirstname());
-        user.setLastname(userEditDto.getLastname());
-        user.setBirthdate(userEditDto.getBirthdate());
-        user.setGender(userEditDto.getGender());
+        user.setId(dto.getId());
+        user.setFirstname(dto.getFirstname());
+        user.setLastname(dto.getLastname());
+        user.setBirthdate(dto.getBirthdate());
+        user.setGender(dto.getGender());
+        user.setCreatedDate(dto.getCreatedDate());
+        user.setUpdatedDate(dto.getUpdatedDate());
         return user;
     }
 
@@ -24,6 +26,8 @@ public class UserEditMapper {
         userEditDto.setLastname(user.getLastname());
         userEditDto.setBirthdate(user.getBirthdate());
         userEditDto.setGender(user.getGender());
+        userEditDto.setCreatedDate(user.getCreatedDate());
+        userEditDto.setUpdatedDate(user.getUpdatedDate());
         return userEditDto;
     }
 }

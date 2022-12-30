@@ -1,4 +1,4 @@
-package com.ramidev.socialnetwork.dto;
+package com.ramidev.socialnetwork.dto.user;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;

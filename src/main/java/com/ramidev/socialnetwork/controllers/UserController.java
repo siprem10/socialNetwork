@@ -1,6 +1,10 @@
 package com.ramidev.socialnetwork.controllers;
 
-import com.ramidev.socialnetwork.dto.*;
+import com.ramidev.socialnetwork.dto.user.UserDto;
+import com.ramidev.socialnetwork.dto.user.UserEditDto;
+import com.ramidev.socialnetwork.dto.user.UserEditPasswordDto;
+import com.ramidev.socialnetwork.dto.user.UserLoginDto;
+import com.ramidev.socialnetwork.security.dto.JwtDto;
 import com.ramidev.socialnetwork.services.UserServiceImpl;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;

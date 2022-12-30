@@ -1,6 +1,9 @@
 package com.ramidev.socialnetwork.services;
 
-import com.ramidev.socialnetwork.dto.*;
+import com.ramidev.socialnetwork.dto.user.UserDto;
+import com.ramidev.socialnetwork.dto.user.UserEditDto;
+import com.ramidev.socialnetwork.dto.user.UserEditPasswordDto;
+import com.ramidev.socialnetwork.dto.user.UserLoginDto;
 import com.ramidev.socialnetwork.entities.User;
 import com.ramidev.socialnetwork.exception.ForbiddenException;
 import com.ramidev.socialnetwork.exception.NotFoundException;
@@ -8,6 +11,7 @@ import com.ramidev.socialnetwork.exception.UniqueException;
 import com.ramidev.socialnetwork.mapper.UserEditMapper;
 import com.ramidev.socialnetwork.mapper.UserMapper;
 import com.ramidev.socialnetwork.repositories.UserRepository;
+import com.ramidev.socialnetwork.security.dto.JwtDto;
 import com.ramidev.socialnetwork.security.jwt.JwtProvider;
 import com.ramidev.socialnetwork.utils.Password;
 import org.springframework.beans.factory.annotation.Autowired;

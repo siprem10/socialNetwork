@@ -1,19 +1,17 @@
-package com.ramidev.socialnetwork.dto;
+package com.ramidev.socialnetwork.dto.user;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.ramidev.socialnetwork.dto.timestamps.Timestamps;
 import com.ramidev.socialnetwork.enums.Gender;
-import com.ramidev.socialnetwork.enums.Role;
 import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Getter @Setter @ToString
-public class UserDto {
+public class UserEditDto extends Timestamps {
 
     private Long id;
 
@@ -27,25 +25,10 @@ public class UserDto {
     @Size(max = 20, message = "El campo no puede superar los 20 caracteres")
     private String lastname;
 
-    @NotEmpty(message = "El campo no puede estar vacio")
-    @Email(message = "Email no válido")
-    private String email;
-
-    @Size(min = 8, message = "La contraseña es muy corta")
-    private String password;
-
     @NotNull(message = "El campo no puede estar vacio")
     @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate birthdate;
 
     @NotNull(message = "El campo no puede estar vacio")
     private Gender gender;
-
-    private Role role = Role.getDefaultRole();
-
-    @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
-    private LocalDateTime createdDate;
-
-    @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
-    private LocalDateTime updatedDate;
 }

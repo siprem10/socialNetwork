@@ -1,4 +1,4 @@
-package com.ramidev.socialnetwork.dto;
+package com.ramidev.socialnetwork.security.dto;
 
 import lombok.Getter;
 import lombok.Setter;

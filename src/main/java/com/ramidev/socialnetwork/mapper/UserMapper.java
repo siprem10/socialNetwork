@@ -1,37 +1,37 @@
 package com.ramidev.socialnetwork.mapper;
 
-import com.ramidev.socialnetwork.dto.UserDto;
+import com.ramidev.socialnetwork.dto.user.UserDto;
 import com.ramidev.socialnetwork.entities.User;
 import org.springframework.stereotype.Component;
 
 @Component
 public class UserMapper {
 
-    public User toEntitiy(UserDto userDto) {
+    public User toEntitiy(UserDto dto) {
         User user = new User();
-        user.setId(userDto.getId());
-        user.setFirstname(userDto.getFirstname());
-        user.setLastname(userDto.getLastname());
-        user.setEmail(userDto.getEmail());
-        user.setPassword(userDto.getPassword());
-        user.setBirthdate(userDto.getBirthdate());
-        user.setGender(userDto.getGender());
-        user.setCreatedDate(userDto.getCreatedDate());
-        user.setUpdatedDate(userDto.getUpdatedDate());
+        user.setId(dto.getId());
+        user.setFirstname(dto.getFirstname());
+        user.setLastname(dto.getLastname());
+        user.setEmail(dto.getEmail());
+        user.setPassword(dto.getPassword());
+        user.setBirthdate(dto.getBirthdate());
+        user.setGender(dto.getGender());
+        user.setCreatedDate(dto.getCreatedDate());
+        user.setUpdatedDate(dto.getUpdatedDate());
         return user;
     }
 
     public UserDto toDto(User user) {
-        UserDto userDto = new UserDto();
-        userDto.setId(user.getId());
-        userDto.setFirstname(user.getFirstname());
-        userDto.setLastname(user.getLastname());
-        userDto.setEmail(user.getEmail());
-        userDto.setPassword(user.getPassword());
-        userDto.setBirthdate(user.getBirthdate());
-        userDto.setGender(user.getGender());
-        userDto.setCreatedDate(user.getCreatedDate());
-        userDto.setUpdatedDate(user.getUpdatedDate());
-        return userDto;
+        UserDto dto = new UserDto();
+        dto.setId(user.getId());
+        dto.setFirstname(user.getFirstname());
+        dto.setLastname(user.getLastname());
+        dto.setEmail(user.getEmail());
+        dto.setPassword(user.getPassword());
+        dto.setBirthdate(user.getBirthdate());
+        dto.setGender(user.getGender());
+        dto.setCreatedDate(user.getCreatedDate());
+        dto.setUpdatedDate(user.getUpdatedDate());
+        return dto;
     }
 }
