@@ -47,10 +47,12 @@ public class User {
     private LocalDate birthdate;
 
     @NotNull
+    @Enumerated(EnumType.STRING)
     @Column(name = "gender")
     private Gender gender;
 
     @NotNull
+    @Enumerated(EnumType.STRING)
     @Column(name = "role")
     private Role role = Role.getDefaultRole();
 
