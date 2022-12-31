@@ -58,7 +58,8 @@ public class Profile {
         posts.remove(post);
         post.setProfile(null);
     }
-
+    public Profile() {
+    }
     public Profile(User user) {
         this.user = user;
     }
