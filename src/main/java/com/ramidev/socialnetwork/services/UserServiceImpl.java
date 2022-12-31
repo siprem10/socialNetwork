@@ -4,6 +4,7 @@ import com.ramidev.socialnetwork.dto.user.UserDto;
 import com.ramidev.socialnetwork.dto.user.UserEditDto;
 import com.ramidev.socialnetwork.dto.user.UserEditPasswordDto;
 import com.ramidev.socialnetwork.dto.user.UserLoginDto;
+import com.ramidev.socialnetwork.entities.Profile;
 import com.ramidev.socialnetwork.entities.User;
 import com.ramidev.socialnetwork.exception.ForbiddenException;
 import com.ramidev.socialnetwork.exception.NotFoundException;
@@ -19,6 +20,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.parameters.P;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -66,6 +68,9 @@ public class UserServiceImpl implements UserService {
         try {
             User user = userMapper.toEntitiy(userDto);
             user.setPassword(Password.pwdEncoder(user.getPassword()));
+            Profile profile = new Profile(user);
+            user.setProfile(profile);
+
             return userMapper.toDto(userRepository.save(user));
         } catch (Exception e) {
             throw new NotFoundException(e.getMessage());

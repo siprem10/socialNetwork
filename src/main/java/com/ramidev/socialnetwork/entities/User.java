@@ -64,7 +64,7 @@ public class User {
     @Column(name = "updated_date")
     private LocalDateTime updatedDate;
 
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "profile_id", referencedColumnName = "id")
+    @NotNull
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private Profile profile;
 }

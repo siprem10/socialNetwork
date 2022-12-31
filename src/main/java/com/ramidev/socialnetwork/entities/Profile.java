@@ -38,12 +38,14 @@ public class Profile {
 
     @Column(name = "job")
     private String job;
-
     @NotNull
+    @OneToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private User user;
+
     @OneToMany(mappedBy = "profile", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Post> posts = new HashSet<>();
 
-    @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_id")
     private Post post;
@@ -55,5 +57,9 @@ public class Profile {
     public void removePost(Post post) {
         posts.remove(post);
         post.setProfile(null);
+    }
+
+    public Profile(User user) {
+        this.user = user;
     }
 }
