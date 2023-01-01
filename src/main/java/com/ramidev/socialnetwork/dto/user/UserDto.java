@@ -1,7 +1,7 @@
 package com.ramidev.socialnetwork.dto.user;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ramidev.socialnetwork.dto.timestamps.Timestamps;
 import com.ramidev.socialnetwork.enums.Gender;
 import com.ramidev.socialnetwork.enums.Role;
@@ -18,7 +18,7 @@ public class UserDto extends Timestamps {
     private String firstname;
     private String lastname;
     private String email;
-    @JsonIgnoreProperties("password")
+    @JsonIgnore
     private String password;
     @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate birthdate;
