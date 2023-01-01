@@ -63,7 +63,4 @@ public class UserController {
         String result = userService.deleteByEmail(email);
         return ResponseEntity.ok(result);
     }
-
-
-
 }
