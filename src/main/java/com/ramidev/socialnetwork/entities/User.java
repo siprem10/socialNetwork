@@ -1,6 +1,7 @@
 package com.ramidev.socialnetwork.entities;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ramidev.socialnetwork.enums.Gender;
 import com.ramidev.socialnetwork.enums.Role;
 import jakarta.persistence.*;
@@ -64,7 +65,9 @@ public class User {
     @Column(name = "updated_date")
     private LocalDateTime updatedDate;
 
+    @JsonIgnore
     @NotNull
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "profile_id", referencedColumnName = "id")
     private Profile profile;
 }
