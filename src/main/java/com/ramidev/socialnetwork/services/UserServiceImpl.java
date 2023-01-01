@@ -1,16 +1,13 @@
 package com.ramidev.socialnetwork.services;
 
-import com.ramidev.socialnetwork.dto.user.UserDto;
-import com.ramidev.socialnetwork.dto.user.UserEditDto;
-import com.ramidev.socialnetwork.dto.user.UserEditPasswordDto;
-import com.ramidev.socialnetwork.dto.user.UserLoginDto;
+import com.ramidev.socialnetwork.dto.user.*;
 import com.ramidev.socialnetwork.entities.Profile;
 import com.ramidev.socialnetwork.entities.User;
 import com.ramidev.socialnetwork.exception.ForbiddenException;
 import com.ramidev.socialnetwork.exception.NotFoundException;
 import com.ramidev.socialnetwork.exception.UniqueException;
-import com.ramidev.socialnetwork.mapper.UserEditMapper;
-import com.ramidev.socialnetwork.mapper.UserMapper;
+import com.ramidev.socialnetwork.mapper.user.UserEditMapper;
+import com.ramidev.socialnetwork.mapper.user.UserMapper;
 import com.ramidev.socialnetwork.repositories.UserRepository;
 import com.ramidev.socialnetwork.security.dto.JwtDto;
 import com.ramidev.socialnetwork.security.jwt.JwtProvider;
@@ -25,7 +22,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -49,7 +45,7 @@ public class UserServiceImpl implements UserService {
     public List<UserDto> getAll() {
 
         return userRepository.findAll()
-                .stream().map(user -> userMapper.toDto(user)).collect(Collectors.toList());
+                .stream().map(user -> userMapper.toDto(user)).toList();
     }
 
     @Override
@@ -60,21 +56,34 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto register(UserDto userDto) {
+    public UserDto register(UserRegisterDto userDto) {
         if(userRepository.existsUserByEmail(userDto.getEmail()))
             throw new UniqueException("El usuario ya está registrado");
 
         try {
-            User user = userMapper.toEntitiy(userDto);
-            user.setPassword(Password.pwdEncoder(user.getPassword()));
-            Profile profile = new Profile(user);
-            user.setProfile(profile);
-
+            User user = userMapper.toEntitiySaved(userDto);
             return userMapper.toDto(userRepository.save(user));
         } catch (Exception e) {
             throw new NotFoundException(e.getMessage());
         }
     }
+
+//    @Override
+//    public UserDto register(UserDto userDto) {
+//        if(userRepository.existsUserByEmail(userDto.getEmail()))
+//            throw new UniqueException("El usuario ya está registrado");
+//
+//        try {
+//            User user = userMapper.toEntitiy(userDto);
+//            user.setPassword(Password.pwdEncoder(user.getPassword()));
+//            Profile profile = new Profile(user);
+//            user.setProfile(profile);
+//
+//            return userMapper.toDto(userRepository.save(user));
+//        } catch (Exception e) {
+//            throw new NotFoundException(e.getMessage());
+//        }
+//    }
 
     @Override
     public JwtDto login(UserLoginDto userLoginDto) {
@@ -109,7 +118,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto editPasswordByEmail(String email, UserEditPasswordDto userEditPasswordDto) {
+    public String editPasswordByEmail(String email, UserEditPasswordDto userEditPasswordDto) {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new NotFoundException(String.format("El usuario %s no existe!", email)));
 
@@ -120,8 +129,9 @@ public class UserServiceImpl implements UserService {
             throw new ForbiddenException("La nueva contraseña no puede ser la misma!");
 
         user.setPassword(Password.pwdEncoder(userEditPasswordDto.getNewPassword()));
+        userRepository.save(user);
 
-        return userMapper.toDto(userRepository.save(user));
+        return "Contraseña modificada correctamente!";
     }
 
 //    @Override

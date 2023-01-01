@@ -1,9 +1,6 @@
 package com.ramidev.socialnetwork.controllers;
 
-import com.ramidev.socialnetwork.dto.user.UserDto;
-import com.ramidev.socialnetwork.dto.user.UserEditDto;
-import com.ramidev.socialnetwork.dto.user.UserEditPasswordDto;
-import com.ramidev.socialnetwork.dto.user.UserLoginDto;
+import com.ramidev.socialnetwork.dto.user.*;
 import com.ramidev.socialnetwork.security.dto.JwtDto;
 import com.ramidev.socialnetwork.services.UserServiceImpl;
 import jakarta.validation.Valid;
@@ -35,7 +32,7 @@ public class UserController {
     }
 
     @PostMapping(value = "/register")
-    public ResponseEntity<UserDto> register(@Valid @RequestBody UserDto userDto) {
+    public ResponseEntity<UserDto> register(@Valid @RequestBody UserRegisterDto userDto) {
         UserDto user = userService.register(userDto);
         return new ResponseEntity<>(user, HttpStatus.CREATED);
     }
@@ -53,9 +50,9 @@ public class UserController {
     }
 
     @PutMapping(value = "/change-password/{email}")
-    public ResponseEntity<UserDto> changePassword(@PathVariable String email, @Valid @RequestBody UserEditPasswordDto userEditPasswordDto) {
-        UserDto user = userService.editPasswordByEmail(email, userEditPasswordDto);
-        return ResponseEntity.ok(user);
+    public ResponseEntity<String> changePassword(@PathVariable String email, @Valid @RequestBody UserEditPasswordDto userEditPasswordDto) {
+        String result = userService.editPasswordByEmail(email, userEditPasswordDto);
+        return ResponseEntity.ok(result);
     }
 
     @DeleteMapping(value = "/{email}")
