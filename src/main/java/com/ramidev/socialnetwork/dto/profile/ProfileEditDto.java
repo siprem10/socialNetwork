@@ -1,17 +1,11 @@
 package com.ramidev.socialnetwork.dto.profile;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.ramidev.socialnetwork.entities.Post;
-import com.ramidev.socialnetwork.entities.User;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-import java.util.HashSet;
-import java.util.Set;
-
 @Getter @Setter @ToString
-public class ProfileDto {
+public class ProfileEditDto {
 
     private Long id;
     private String profilePic;
@@ -21,7 +15,4 @@ public class ProfileDto {
     private String city;
     private String hobbie;
     private String job;
-    @JsonIgnoreProperties("password")
-    private User user;
-    private Set<Post> posts = new HashSet<>();
 }

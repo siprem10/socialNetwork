@@ -8,6 +8,10 @@ import java.util.Optional;
 
 @Repository
 public interface ProfileRepository extends JpaRepository<Profile, Long> {
+
+    boolean existsById(Long id);
     Optional<Profile> findById(Long id);
+    boolean existsByUserId(Long id);
     Optional<Profile> findByUserId(Long id);
+//    Optional<Profile> findByUserFirstname(String name); interesante por si quiero buscar por la relacion
 }

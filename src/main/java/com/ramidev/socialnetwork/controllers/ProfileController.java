@@ -1,6 +1,7 @@
 package com.ramidev.socialnetwork.controllers;
 
 import com.ramidev.socialnetwork.dto.profile.ProfileDto;
+import com.ramidev.socialnetwork.dto.profile.ProfileSimpleDto;
 import com.ramidev.socialnetwork.entities.Profile;
 import com.ramidev.socialnetwork.services.ProfileServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,9 +24,15 @@ public class ProfileController {
         return ResponseEntity.ok(dto);
     }
 
-    @GetMapping(value = "/{idUser}")
-    public ResponseEntity<Object> getByUserId(@RequestParam Long id) {
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<Object> getByUserId(@PathVariable Long id) {
         Profile profile = profileService.getByUserId(id);
         return ResponseEntity.ok(profile);
+    }
+
+    @GetMapping(value = "/simple")
+    public ResponseEntity<Object> getAllSimple() {
+        List<ProfileSimpleDto> dto = profileService.getAllSimple();
+        return ResponseEntity.ok(dto);
     }
 }

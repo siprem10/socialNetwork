@@ -1,18 +1,16 @@
 package com.ramidev.socialnetwork.mapper.profile;
 
-import com.ramidev.socialnetwork.dto.profile.ProfileDto;
+import com.ramidev.socialnetwork.dto.profile.ProfileSimpleDto;
 import com.ramidev.socialnetwork.entities.Profile;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ProfileMapper  {
-    public Profile toEntity(ProfileDto dto) {
+public class ProfileSimpleMapper {
+
+    public Profile toEntity(ProfileSimpleDto dto) {
         Profile profile = new Profile();
         profile.setId(dto.getId());
         profile.setProfilePic(dto.getProfilePic());
-        profile.setCoverPhoto(dto.getCoverPhoto());
-        profile.setDescription(dto.getDescription());
-        profile.setCountry(dto.getCountry());
         profile.setCity(dto.getCity());
         profile.setHobbie(dto.getHobbie());
         profile.setJob(dto.getJob());
@@ -20,13 +18,10 @@ public class ProfileMapper  {
         return profile;
     }
 
-    public ProfileDto toDto(Profile profile) {
-        ProfileDto dto = new ProfileDto();
+    public ProfileSimpleDto toDto(Profile profile) {
+        ProfileSimpleDto dto = new ProfileSimpleDto();
         dto.setId(profile.getId());
         dto.setProfilePic(profile.getProfilePic());
-        dto.setCoverPhoto(profile.getCoverPhoto());
-        dto.setDescription(profile.getDescription());
-        dto.setCountry(profile.getCountry());
         dto.setCity(profile.getCity());
         dto.setHobbie(profile.getHobbie());
         dto.setJob(profile.getJob());
