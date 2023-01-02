@@ -28,11 +28,17 @@ dependencies {
 	implementation 'javax.xml.bind:jaxb-api:2.4.0-b180830.0359'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'mysql:mysql-connector-java:8.0.25'
+	implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.5' // encode app settings
+	implementation 'com.konghq:unirest-objectmapper-jackson:4.0.0-RC7' //Mappear
+	//Cloudinary
+	implementation 'com.cloudinary:cloudinary-http44:1.33.0'
+	implementation 'com.cloudinary:cloudinary-taglib:1.33.0'
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 	providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
+
 }
 
 tasks.named('test') {
