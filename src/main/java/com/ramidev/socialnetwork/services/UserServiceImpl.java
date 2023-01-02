@@ -1,17 +1,16 @@
 package com.ramidev.socialnetwork.services;
 
 import com.ramidev.socialnetwork.dto.user.*;
-import com.ramidev.socialnetwork.entities.Profile;
 import com.ramidev.socialnetwork.entities.User;
 import com.ramidev.socialnetwork.exception.ForbiddenException;
 import com.ramidev.socialnetwork.exception.NotFoundException;
 import com.ramidev.socialnetwork.exception.UniqueException;
-import com.ramidev.socialnetwork.mapper.user.UserEditMapper;
-import com.ramidev.socialnetwork.mapper.user.UserMapper;
+import com.ramidev.socialnetwork.dto.mapper.user.UserEditMapper;
+import com.ramidev.socialnetwork.dto.mapper.user.UserMapper;
 import com.ramidev.socialnetwork.repositories.UserRepository;
 import com.ramidev.socialnetwork.security.dto.JwtDto;
 import com.ramidev.socialnetwork.security.jwt.JwtProvider;
-import com.ramidev.socialnetwork.utils.Password;
+import com.ramidev.socialnetwork.utils.PasswordUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -75,7 +74,7 @@ public class UserServiceImpl implements UserService {
 //
 //        try {
 //            User user = userMapper.toEntitiy(userDto);
-//            user.setPassword(Password.pwdEncoder(user.getPassword()));
+//            user.setPassword(PasswordUtil.pwdEncoder(user.getPassword()));
 //            Profile profile = new Profile(user);
 //            user.setProfile(profile);
 //
@@ -122,13 +121,13 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new NotFoundException(String.format("El usuario %s no existe!", email)));
 
-        if(!Password.pwdCompare(userEditPasswordDto.getPassword(), user.getPassword()))
+        if(!PasswordUtil.pwdCompare(userEditPasswordDto.getPassword(), user.getPassword()))
             throw new ForbiddenException("Contraseña antigua incorrecta!");
 
         if(userEditPasswordDto.getPassword().equals(userEditPasswordDto.getNewPassword()))
             throw new ForbiddenException("La nueva contraseña no puede ser la misma!");
 
-        user.setPassword(Password.pwdEncoder(userEditPasswordDto.getNewPassword()));
+        user.setPassword(PasswordUtil.pwdEncoder(userEditPasswordDto.getNewPassword()));
         userRepository.save(user);
 
         return "Contraseña modificada correctamente!";
@@ -149,13 +148,13 @@ public class UserServiceImpl implements UserService {
 //    public UserDto editPasswordByEmail(String email, UserEditPasswordDto userEditPasswordDto) {
 //        User user = userMapper.toEntitiy(getByEmail(email));
 //
-//        if(!Password.pwdCompare(userEditPasswordDto.getPassword(), user.getPassword()))
+//        if(!PasswordUtil.pwdCompare(userEditPasswordDto.getPassword(), user.getPassword()))
 //            throw new ForbiddenException("Contraseña antigua incorrecta!");
 //
 //        if(userEditPasswordDto.getPassword().equals(userEditPasswordDto.getNewPassword()))
 //            throw new ForbiddenException("La nueva contraseña no puede ser la misma!");
 //
-//        user.setPassword(Password.pwdEncoder(userEditPasswordDto.getNewPassword()));
+//        user.setPassword(PasswordUtil.pwdEncoder(userEditPasswordDto.getNewPassword()));
 //
 //        return userMapper.toDto(userRepository.save(user));
 //    }

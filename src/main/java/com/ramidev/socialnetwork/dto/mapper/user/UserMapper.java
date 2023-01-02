@@ -1,10 +1,10 @@
-package com.ramidev.socialnetwork.mapper.user;
+package com.ramidev.socialnetwork.dto.mapper.user;
 
 import com.ramidev.socialnetwork.dto.user.UserDto;
 import com.ramidev.socialnetwork.dto.user.UserRegisterDto;
 import com.ramidev.socialnetwork.entities.Profile;
 import com.ramidev.socialnetwork.entities.User;
-import com.ramidev.socialnetwork.utils.Password;
+import com.ramidev.socialnetwork.utils.PasswordUtil;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -35,7 +35,7 @@ public class UserMapper {
         user.setGender(dto.getGender());
         user.setCreatedDate(dto.getCreatedDate());
         user.setUpdatedDate(dto.getUpdatedDate());
-        user.setPassword(Password.pwdEncoder(user.getPassword()));
+        user.setPassword(PasswordUtil.pwdEncoder(user.getPassword()));
         user.setProfile(new Profile(user));
         return user;
     }
