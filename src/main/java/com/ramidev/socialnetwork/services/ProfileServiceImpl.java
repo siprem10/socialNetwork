@@ -1,11 +1,13 @@
 package com.ramidev.socialnetwork.services;
 
 import com.ramidev.socialnetwork.dto.profile.ProfileDto;
+import com.ramidev.socialnetwork.dto.profile.ProfileEditDto;
 import com.ramidev.socialnetwork.dto.profile.ProfileSimpleDto;
 import com.ramidev.socialnetwork.entities.Profile;
 import com.ramidev.socialnetwork.exception.NotFoundException;
-import com.ramidev.socialnetwork.mapper.profile.ProfileMapper;
-import com.ramidev.socialnetwork.mapper.profile.ProfileSimpleMapper;
+import com.ramidev.socialnetwork.dto.mapper.profile.ProfileEditMapper;
+import com.ramidev.socialnetwork.dto.mapper.profile.ProfileMapper;
+import com.ramidev.socialnetwork.dto.mapper.profile.ProfileSimpleMapper;
 import com.ramidev.socialnetwork.repositories.ProfileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,6 +24,9 @@ public class ProfileServiceImpl implements ProfileService {
     private ProfileMapper profileMapper;
     @Autowired
     private ProfileSimpleMapper profileSimpleMapper;
+
+    @Autowired
+    private ProfileEditMapper profileEditMapper;
 
     @Override
     public List<Profile> getAll() {
@@ -46,4 +51,11 @@ public class ProfileServiceImpl implements ProfileService {
         List<Profile> profile = profileRepository.findAll();
         return profile.stream().map(data -> profileSimpleMapper.toDto(data)).toList();
     }
+
+    @Override
+    public ProfileEditDto editById(Long id, ProfileEditDto profileEditDto) {
+        Profile profile = profileRepository.findById(id).get();
+        return profileEditMapper.toDto(profile);
+    }
 }
+
