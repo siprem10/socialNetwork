@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.util.Map;
 
 @Service
@@ -23,11 +22,11 @@ public class CloudinaryService {
     @Autowired
     private ObjectMapper objectMapper;
 
-    public CloudinaryDto submitImage(MultipartFile image) throws IOException {
+    public CloudinaryDto submitImage(MultipartFile image) {
         return submitImage(image, null);
     }
 
-    public CloudinaryDto submitImage(MultipartFile image, String subfolder) throws IOException {
+    public CloudinaryDto submitImage(MultipartFile image, String subfolder) {
 
         if(!ImageUtil.isValidImage(image)) throw new NotFoundException("Imagen no válida!");
 
@@ -44,8 +43,8 @@ public class CloudinaryService {
                     "overwrite", true,
                     "folder", saveInFolder
             );
-            CloudinaryDto dto = objectMapper.convertValue(cloudinary.uploader().upload(image.getBytes(), params), CloudinaryDto.class);
-            return dto;
+
+            return objectMapper.convertValue(cloudinary.uploader().upload(image.getBytes(), params), CloudinaryDto.class);
         } catch (Exception e) {
             throw new NotFoundException(e.getMessage());
         }
