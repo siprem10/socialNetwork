@@ -1,6 +1,5 @@
 package com.ramidev.socialnetwork.security.jwt;
 
-import com.ramidev.socialnetwork.exception.ForbiddenException;
 import com.ramidev.socialnetwork.security.services.UserDetailsServiceImpl;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
