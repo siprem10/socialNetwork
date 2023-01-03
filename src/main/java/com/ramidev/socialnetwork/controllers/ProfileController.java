@@ -1,6 +1,7 @@
 package com.ramidev.socialnetwork.controllers;
 
 import com.ramidev.socialnetwork.dto.image.CloudinaryDto;
+import com.ramidev.socialnetwork.dto.profile.ChangeImageDto;
 import com.ramidev.socialnetwork.dto.profile.ProfileDto;
 import com.ramidev.socialnetwork.dto.profile.ProfileEditDto;
 import com.ramidev.socialnetwork.dto.profile.ProfileSimpleDto;
@@ -8,10 +9,14 @@ import com.ramidev.socialnetwork.entities.Profile;
 import com.ramidev.socialnetwork.services.ProfileServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/profile")
@@ -27,9 +32,9 @@ public class ProfileController {
         return ResponseEntity.ok(dto);
     }
 
-    @GetMapping(value = "/{id}")
-    public ResponseEntity<Object> getByUserId(@PathVariable Long id) {
-        Profile profile = profileService.getByUserId(id);
+    @GetMapping(value = "/{email}")
+    public ResponseEntity<Object> getByUserEmail(@PathVariable String email) {
+        Profile profile = profileService.getByUserEmail(email);
         return ResponseEntity.ok(profile);
     }
 
@@ -39,15 +44,25 @@ public class ProfileController {
         return ResponseEntity.ok(dto);
     }
 
-    @PatchMapping(value = "/{id}")
-    public ResponseEntity<Object> edit(@PathVariable Long id, ProfileEditDto profileEditDto) {
-        ProfileEditDto dto = profileService.editById(id, profileEditDto);
+    @PatchMapping(value = "/{email}")
+    public ResponseEntity<Object> edit(@PathVariable String email, @RequestBody Map<Object, Object> profileEdit) {
+        ProfileEditDto dto = profileService.editByUserEmail(email, profileEdit);
         return ResponseEntity.ok(dto);
     }
 
-    @PostMapping
-    public ResponseEntity<Object> submitImage(@RequestParam MultipartFile image) {
-        CloudinaryDto dto = profileService.submitImage(image);
+    @PostMapping(value = "/changeImage")
+    public ResponseEntity<Object> submitImage(@RequestParam MultipartFile image, @RequestParam ChangeImageDto type) {
+        CloudinaryDto cloudinaryDto = profileService.submitImage(image, type);
+        Map<Object, Object> imagesToEdit = new HashMap<>();
+
+        if(type == ChangeImageDto.PIC) {
+            imagesToEdit.put("profilePic", cloudinaryDto.getSecure_url());
+        } else {
+            imagesToEdit.put("coverPhoto", cloudinaryDto.getSecure_url());
+        }
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        ProfileEditDto dto = profileService.editByUserEmail(email, imagesToEdit);
+
         return ResponseEntity.ok(dto);
     }
 }

@@ -1,6 +1,7 @@
 package com.ramidev.socialnetwork.services;
 
 import com.ramidev.socialnetwork.dto.image.CloudinaryDto;
+import com.ramidev.socialnetwork.dto.profile.ChangeImageDto;
 import com.ramidev.socialnetwork.dto.profile.ProfileDto;
 import com.ramidev.socialnetwork.dto.profile.ProfileEditDto;
 import com.ramidev.socialnetwork.dto.profile.ProfileSimpleDto;
@@ -14,9 +15,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ReflectionUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.lang.reflect.Field;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class ProfileServiceImpl implements ProfileService {
@@ -46,11 +50,10 @@ public class ProfileServiceImpl implements ProfileService {
         return profile.stream().map(data -> profileMapper.toDto(data)).toList();
     }
 
-    // ver si lo agarro por id o id usuario
     @Override
-    public Profile getByUserId(Long id) {
-        return profileRepository.findByUserId(id)
-                .orElseThrow(() -> new NotFoundException(String.format("Perfil con userId %s no encontrado!", id)));
+    public Profile getByUserEmail(String email) {
+        return profileRepository.findByUserEmail(email)
+                .orElseThrow(() -> new NotFoundException(String.format("Perfil %s no encontrado!", email)));
     }
 
     @Override
@@ -60,15 +63,21 @@ public class ProfileServiceImpl implements ProfileService {
     }
 
     @Override
-    public ProfileEditDto editById(Long id, ProfileEditDto profileEditDto) {
-        Profile profile = profileRepository.findById(id).get();
-        return profileEditMapper.toDto(profile);
+    public ProfileEditDto editByUserEmail(String email, Map<Object, Object> profileEdit) {
+        Profile profile = profileRepository.findByUserEmail(email)
+                .orElseThrow(() -> new NotFoundException(String.format("Perfil %s no encontrado!", email)));
+
+        profileEdit.forEach((key, value) -> {
+            Field field = ReflectionUtils.findField(Profile.class, (String) key);
+            field.setAccessible(true);
+            ReflectionUtils.setField(field, profile, value);
+        });
+        return profileEditMapper.toDto(profileRepository.save(profile));
     }
 
-    public CloudinaryDto submitImage(MultipartFile image) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String email = auth.getName();
-        String subfolder = "profile/"+email+"/";
+    public CloudinaryDto submitImage(MultipartFile image, ChangeImageDto type) {
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        String subfolder = "profile/"+email+"/"+type;
         return cloudinaryService.submitImage(image, subfolder);
     }
 }

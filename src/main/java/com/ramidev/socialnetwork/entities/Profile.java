@@ -20,10 +20,10 @@ public class Profile {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "profilePic")
+    @Column(name = "profile_pic")
     private String profilePic;
 
-    @Column(name = "coverPhoto")
+    @Column(name = "cover_photo")
     private String coverPhoto;
 
     @Column(name = "description")
