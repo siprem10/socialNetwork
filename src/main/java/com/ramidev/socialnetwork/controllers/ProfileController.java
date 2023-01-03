@@ -5,17 +5,12 @@ import com.ramidev.socialnetwork.dto.profile.ProfileDto;
 import com.ramidev.socialnetwork.dto.profile.ProfileEditDto;
 import com.ramidev.socialnetwork.dto.profile.ProfileSimpleDto;
 import com.ramidev.socialnetwork.entities.Profile;
-import com.ramidev.socialnetwork.services.CloudinaryService;
 import com.ramidev.socialnetwork.services.ProfileServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -25,9 +20,6 @@ public class ProfileController {
 
     @Autowired
     private ProfileServiceImpl profileService;
-
-    @Autowired
-    private CloudinaryService cloudinaryService;
 
     @GetMapping
     public ResponseEntity<Object> getAll() {
@@ -54,8 +46,8 @@ public class ProfileController {
     }
 
     @PostMapping
-    public ResponseEntity<Object> subitImage(@RequestParam MultipartFile image) throws IOException {
-        CloudinaryDto response = cloudinaryService.submitImage(image);
-        return ResponseEntity.ok(response);
+    public ResponseEntity<Object> submitImage(@RequestParam MultipartFile image) {
+        CloudinaryDto dto = profileService.submitImage(image);
+        return ResponseEntity.ok(dto);
     }
 }

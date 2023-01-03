@@ -1,5 +1,6 @@
 package com.ramidev.socialnetwork.services;
 
+import com.ramidev.socialnetwork.dto.image.CloudinaryDto;
 import com.ramidev.socialnetwork.dto.profile.ProfileDto;
 import com.ramidev.socialnetwork.dto.profile.ProfileEditDto;
 import com.ramidev.socialnetwork.dto.profile.ProfileSimpleDto;
@@ -10,7 +11,10 @@ import com.ramidev.socialnetwork.dto.mapper.profile.ProfileMapper;
 import com.ramidev.socialnetwork.dto.mapper.profile.ProfileSimpleMapper;
 import com.ramidev.socialnetwork.repositories.ProfileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -27,6 +31,9 @@ public class ProfileServiceImpl implements ProfileService {
 
     @Autowired
     private ProfileEditMapper profileEditMapper;
+
+    @Autowired
+    private CloudinaryService cloudinaryService;
 
     @Override
     public List<Profile> getAll() {
@@ -56,6 +63,13 @@ public class ProfileServiceImpl implements ProfileService {
     public ProfileEditDto editById(Long id, ProfileEditDto profileEditDto) {
         Profile profile = profileRepository.findById(id).get();
         return profileEditMapper.toDto(profile);
+    }
+
+    public CloudinaryDto submitImage(MultipartFile image) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String email = auth.getName();
+        String subfolder = "profile/"+email+"/";
+        return cloudinaryService.submitImage(image, subfolder);
     }
 }
 
