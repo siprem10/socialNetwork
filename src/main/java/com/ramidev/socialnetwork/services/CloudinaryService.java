@@ -4,6 +4,7 @@ import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ramidev.socialnetwork.dto.image.CloudinaryDto;
+import com.ramidev.socialnetwork.exception.BadRequestException;
 import com.ramidev.socialnetwork.exception.NotFoundException;
 import com.ramidev.socialnetwork.utils.ImageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +29,7 @@ public class CloudinaryService {
 
     public CloudinaryDto submitImage(MultipartFile image, String subfolder) {
 
-        if(!ImageUtil.isValidImage(image)) throw new NotFoundException("Imagen no válida!");
+        if(!ImageUtil.isValidImage(image)) throw new BadRequestException("Imagen no válida!");
 
         try {
             Cloudinary cloudinary = new Cloudinary(clodinaryBaseUrl);
@@ -43,8 +44,8 @@ public class CloudinaryService {
                     "overwrite", true,
                     "folder", saveInFolder
             );
-
             return objectMapper.convertValue(cloudinary.uploader().upload(image.getBytes(), params), CloudinaryDto.class);
+
         } catch (Exception e) {
             throw new NotFoundException(e.getMessage());
         }
