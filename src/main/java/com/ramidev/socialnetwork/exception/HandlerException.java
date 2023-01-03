@@ -39,10 +39,14 @@ public class HandlerException extends ResponseEntityExceptionHandler {
         return builder(new BuilderException(ex.getMessage(), HttpStatus.OK));
     }
 
-
     @ExceptionHandler(ForbiddenException.class)
     public ResponseEntity<Object> forbiddenException(ForbiddenException ex) {
         return builder(new BuilderException(ex.getMessage(), HttpStatus.FORBIDDEN));
+    }
+
+    @ExceptionHandler(BadRequestException.class)
+    public ResponseEntity<Object> badRequestException(BadRequestException ex) {
+        return builder(new BuilderException(ex.getMessage(), HttpStatus.BAD_REQUEST));
     }
 
     private ResponseEntity<Object> builder(BuilderException builderException) {
