@@ -1,6 +1,7 @@
 package com.ramidev.socialnetwork.dto.profile;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.ramidev.socialnetwork.entities.FriendShip;
 import com.ramidev.socialnetwork.entities.Post;
 import com.ramidev.socialnetwork.entities.User;
 import lombok.Getter;
@@ -24,4 +25,6 @@ public class ProfileDto {
     @JsonIgnoreProperties("password")
     private User user;
     private Set<Post> posts = new HashSet<>();
+    private Set<FriendShip> friendShips = new HashSet<>();
+    private Integer friendShips2 = friendShips.size();
 }

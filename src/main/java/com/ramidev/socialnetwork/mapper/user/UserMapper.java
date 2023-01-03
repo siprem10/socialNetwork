@@ -1,4 +1,4 @@
-package com.ramidev.socialnetwork.dto.mapper.user;
+package com.ramidev.socialnetwork.mapper.user;
 
 import com.ramidev.socialnetwork.dto.user.UserDto;
 import com.ramidev.socialnetwork.dto.user.UserRegisterDto;

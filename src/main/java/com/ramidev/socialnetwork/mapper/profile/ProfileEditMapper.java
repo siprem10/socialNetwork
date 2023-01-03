@@ -1,4 +1,4 @@
-package com.ramidev.socialnetwork.dto.mapper.profile;
+package com.ramidev.socialnetwork.mapper.profile;
 
 import com.ramidev.socialnetwork.dto.profile.ProfileEditDto;
 import com.ramidev.socialnetwork.entities.Profile;

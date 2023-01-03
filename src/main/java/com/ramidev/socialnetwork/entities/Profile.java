@@ -44,7 +44,19 @@ public class Profile {
     private User user;
 
     @OneToMany(mappedBy = "profile", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<FriendShip> friendShips = new HashSet<>();
+
+    @OneToMany(mappedBy = "profile", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Post> posts = new HashSet<>();
+
+    public void addFriendShip(FriendShip friendShip) {
+        friendShips.add(friendShip);
+        friendShip.setProfile(this);
+    }
+    public void removeFriendShip(FriendShip friendShip) {
+        friendShips.remove(friendShip);
+        friendShip.setProfile(null);
+    }
 
     public void addPost(Post post) {
         posts.add(post);
