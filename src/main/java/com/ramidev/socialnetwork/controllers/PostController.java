@@ -4,6 +4,7 @@ import com.ramidev.socialnetwork.dto.post.PostCreateDto;
 import com.ramidev.socialnetwork.dto.post.PostDto;
 import com.ramidev.socialnetwork.services.PostServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,9 +33,8 @@ public class PostController {
 
     @PostMapping(value = "{email}")
     public ResponseEntity<Object> create(@PathVariable String email, @RequestBody PostCreateDto postCreateDto) {
-
         Object dto = postService.create(email, postCreateDto);
-        return ResponseEntity.ok(dto);
+        return new ResponseEntity<>(dto, HttpStatus.CREATED);
     }
 
     @PatchMapping(value = "{id}")
