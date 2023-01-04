@@ -7,6 +7,7 @@ import com.ramidev.socialnetwork.dto.image.CloudinaryDto;
 import com.ramidev.socialnetwork.exception.BadRequestException;
 import com.ramidev.socialnetwork.exception.NotFoundException;
 import com.ramidev.socialnetwork.utils.ImageUtil;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -21,7 +22,7 @@ public class CloudinaryService {
     private String clodinaryBaseUrl;
 
     @Autowired
-    private ObjectMapper objectMapper;
+    private ModelMapper modelMapper;
 
     public CloudinaryDto submitImage(MultipartFile image) {
         return submitImage(image, null);
@@ -44,7 +45,7 @@ public class CloudinaryService {
                     "overwrite", true,
                     "folder", saveInFolder
             );
-            return objectMapper.convertValue(cloudinary.uploader().upload(image.getBytes(), params), CloudinaryDto.class);
+            return modelMapper.map(cloudinary.uploader().upload(image.getBytes(), params), CloudinaryDto.class);
 
         } catch (Exception e) {
             throw new NotFoundException(e.getMessage());
