@@ -29,6 +29,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'mysql:mysql-connector-java:8.0.25'
 	implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.5' // encode app settings
+	implementation 'org.modelmapper:modelmapper:3.1.1' //Mappear
 	implementation 'com.konghq:unirest-objectmapper-jackson:4.0.0-RC7' //Mappear
 	//Cloudinary
 	implementation 'com.cloudinary:cloudinary-http44:1.33.0'
