@@ -33,14 +33,12 @@ public class Comment {
     private LocalDateTime updatedDate;
 
     /* Muchos comentarios pertenecen a 1 post */
-    @JsonManagedReference
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_id")
     private Post post;
 
     /* 1 comentario pertenece a 1 perfil */
-    //@JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "profile_id", referencedColumnName = "id")
     private Profile profile;
