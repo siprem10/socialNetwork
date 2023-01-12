@@ -15,6 +15,6 @@ public interface ProfileService {
     List<ProfileDto> getAllFull();
     List<ProfileSimpleDto> getAllSimple();
     ProfileDto getByUserEmail(String email);
-    ProfileEditDto editByUserEmail(String email, Map<Object, Object> profileEdit);
+    ProfileEditDto editByUserEmail(String email, Map<String, Object> profileEdit);
     ProfileEditDto changeImage(String email, MultipartFile image, ProfileChangeImgDto type);
 }

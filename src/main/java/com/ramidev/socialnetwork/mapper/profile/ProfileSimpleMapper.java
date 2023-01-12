@@ -14,7 +14,7 @@ public class ProfileSimpleMapper {
         profile.setCity(dto.getCity());
         profile.setHobbie(dto.getHobbie());
         profile.setJob(dto.getJob());
-        profile.setUser(dto.getUser());
+        //profile.setUser(dto.getUser());
         return profile;
     }
 
@@ -25,7 +25,7 @@ public class ProfileSimpleMapper {
         dto.setCity(profile.getCity());
         dto.setHobbie(profile.getHobbie());
         dto.setJob(profile.getJob());
-        dto.setUser(profile.getUser());
+        //dto.setUser(profile.getUser());
         return dto;
     }
 

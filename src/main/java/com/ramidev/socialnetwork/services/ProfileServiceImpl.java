@@ -11,6 +11,7 @@ import com.ramidev.socialnetwork.mapper.profile.ProfileEditMapper;
 import com.ramidev.socialnetwork.mapper.profile.ProfileMapper;
 import com.ramidev.socialnetwork.mapper.profile.ProfileSimpleMapper;
 import com.ramidev.socialnetwork.repositories.ProfileRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -27,6 +28,9 @@ public class ProfileServiceImpl implements ProfileService {
 
     @Autowired
     private ProfileRepository profileRepository;
+
+    @Autowired
+    private ModelMapper mapper;
 
     @Autowired
     private ProfileMapper profileMapper;
@@ -61,11 +65,11 @@ public class ProfileServiceImpl implements ProfileService {
     @Override
     public List<ProfileSimpleDto> getAllSimple() {
         List<Profile> profile = profileRepository.findAll();
-        return profile.stream().map(data -> profileSimpleMapper.toDto(data)).toList();
+        return profile.stream().map(data -> mapper.map(data, ProfileSimpleDto.class)).toList();
     }
 
     @Override
-    public ProfileEditDto editByUserEmail(String email, Map<Object, Object> profileEdit) {
+    public ProfileEditDto editByUserEmail(String email, Map<String, Object> profileEdit) {
         Profile profile = profileRepository.findByUserEmail(email)
                 .orElseThrow(() -> new NotFoundException(String.format("Perfil %s no encontrado!", email)));
 
@@ -80,10 +84,9 @@ public class ProfileServiceImpl implements ProfileService {
     @Override
     public ProfileEditDto changeImage(String email, MultipartFile image, ProfileChangeImgDto type) {
         CloudinaryDto cloudinaryDto = submitImage(image, type);
-        Map<Object, Object> fieldToEdit = calculateFieldToEdit(type, cloudinaryDto.getSecure_url());
-        ProfileEditDto dto = editByUserEmail(email, fieldToEdit);
+        Map<String, Object> fieldToEdit = calculateFieldToEdit(type, cloudinaryDto.getSecure_url());
 
-        return dto;
+        return editByUserEmail(email, fieldToEdit);
     }
 
     private CloudinaryDto submitImage(MultipartFile image, ProfileChangeImgDto type) {
@@ -92,8 +95,8 @@ public class ProfileServiceImpl implements ProfileService {
         return cloudinaryService.submitImage(image, subfolder);
     }
 
-    private Map<Object, Object> calculateFieldToEdit(ProfileChangeImgDto type, String url){
-        Map<Object, Object> imagesToEdit = new HashMap<>();
+    private Map<String, Object> calculateFieldToEdit(ProfileChangeImgDto type, String url){
+        Map<String, Object> imagesToEdit = new HashMap<>();
         if(ProfileChangeImgDto.PIC.equals(type)) {
             imagesToEdit.put("profilePic", url);
         } else {

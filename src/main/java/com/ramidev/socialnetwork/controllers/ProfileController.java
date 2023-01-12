@@ -40,7 +40,7 @@ public class ProfileController {
     }
 
     @PatchMapping(value = "/{email}")
-    public ResponseEntity<ProfileEditDto> edit(@PathVariable String email, @RequestBody Map<Object, Object> profileEdit) {
+    public ResponseEntity<ProfileEditDto> edit(@PathVariable String email, @RequestBody Map<String, Object> profileEdit) {
         ProfileEditDto dto = profileService.editByUserEmail(email, profileEdit);
         return ResponseEntity.ok(dto);
     }
