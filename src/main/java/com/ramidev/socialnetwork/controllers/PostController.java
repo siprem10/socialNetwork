@@ -20,19 +20,19 @@ public class PostController {
     private PostServiceImpl postService;
 
     @GetMapping
-    public ResponseEntity<Object> getAll() {
+    public ResponseEntity<List<PostDto>> getAll() {
         List<PostDto> dto = postService.getAll();
         return ResponseEntity.ok(dto);
     }
 
     @GetMapping(value = "{id}")
-    public ResponseEntity<Object> getById(@PathVariable Long id) {
+    public ResponseEntity<PostDto> getById(@PathVariable Long id) {
         PostDto dto = postService.getById(id);
         return ResponseEntity.ok(dto);
     }
 
     @PostMapping(value = "{email}")
-    public ResponseEntity<Object> create(@PathVariable String email, @RequestBody PostCreateDto postCreateDto) {
+    public ResponseEntity<PostDto> create(@PathVariable String email, @RequestBody PostCreateDto postCreateDto) {
         PostDto dto = postService.create(email, postCreateDto);
         return new ResponseEntity<>(dto, HttpStatus.CREATED);
     }

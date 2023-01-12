@@ -51,9 +51,11 @@ public class ProfileServiceImpl implements ProfileService {
     }
 
     @Override
-    public Profile getByUserEmail(String email) {
-        return profileRepository.findByUserEmail(email)
+    public ProfileDto getByUserEmail(String email) {
+        Profile profile = profileRepository.findByUserEmail(email)
                 .orElseThrow(() -> new NotFoundException(String.format("Perfil %s no encontrado!", email)));
+
+        return profileMapper.toDto(profile);
     }
 
     @Override

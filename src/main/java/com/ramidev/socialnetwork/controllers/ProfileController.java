@@ -30,9 +30,9 @@ public class ProfileController {
     }
 
     @GetMapping(value = "/{email}")
-    public ResponseEntity<Profile> getByUserEmail(@PathVariable String email) {
-        Profile profile = profileService.getByUserEmail(email);
-        return ResponseEntity.ok(profile);
+    public ResponseEntity<ProfileDto> getByUserEmail(@PathVariable String email) {
+        ProfileDto dto = profileService.getByUserEmail(email);
+        return ResponseEntity.ok(dto);
     }
 
     @GetMapping(value = "/simple")
