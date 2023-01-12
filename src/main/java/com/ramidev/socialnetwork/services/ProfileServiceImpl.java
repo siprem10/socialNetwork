@@ -18,6 +18,7 @@ import org.springframework.util.ReflectionUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.lang.reflect.Field;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -74,10 +75,29 @@ public class ProfileServiceImpl implements ProfileService {
         return profileEditMapper.toDto(profileRepository.save(profile));
     }
 
-    public CloudinaryDto submitImage(MultipartFile image, ChangeImageDto type) {
+    @Override
+    public ProfileEditDto changeImage(String email, MultipartFile image, ChangeImageDto type) {
+        CloudinaryDto cloudinaryDto = submitImage(image, type);
+        Map<Object, Object> fieldToEdit = calculateFieldToEdit(type, cloudinaryDto.getSecure_url());
+        ProfileEditDto dto = editByUserEmail(email, fieldToEdit);
+
+        return dto;
+    }
+
+    private CloudinaryDto submitImage(MultipartFile image, ChangeImageDto type) {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         String subfolder = "profile/"+email+"/"+type;
         return cloudinaryService.submitImage(image, subfolder);
+    }
+
+    private Map<Object, Object> calculateFieldToEdit(ChangeImageDto type, String url){
+        Map<Object, Object> imagesToEdit = new HashMap<>();
+        if(ChangeImageDto.PIC.equals(type)) {
+            imagesToEdit.put("profilePic", url);
+        } else {
+            imagesToEdit.put("coverPhoto", url);
+        }
+        return imagesToEdit;
     }
 }
 

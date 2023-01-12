@@ -1,5 +1,8 @@
 package com.ramidev.socialnetwork.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -34,11 +37,14 @@ public class Post {
     @Column(name = "updated_date")
     private LocalDateTime updatedDate;
 
+
+    @JsonManagedReference
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "profile_id")
     private Profile profile;
 
+    @JsonManagedReference
     @NotNull
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Comment> comments = new HashSet<>();

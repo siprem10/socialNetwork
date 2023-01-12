@@ -33,18 +33,18 @@ public class PostController {
 
     @PostMapping(value = "{email}")
     public ResponseEntity<Object> create(@PathVariable String email, @RequestBody PostCreateDto postCreateDto) {
-        Object dto = postService.create(email, postCreateDto);
+        PostDto dto = postService.create(email, postCreateDto);
         return new ResponseEntity<>(dto, HttpStatus.CREATED);
     }
 
     @PatchMapping(value = "{id}")
-    public ResponseEntity<Object> editById(@PathVariable Long id, @RequestBody Map<Object, Object> postEdit) {
+    public ResponseEntity<PostDto> editById(@PathVariable Long id, @RequestBody Map<Object, Object> postEdit) {
         PostDto dto = postService.editById(id, postEdit);
         return ResponseEntity.ok(dto);
     }
 
     @DeleteMapping(value = "{id}")
-    public ResponseEntity<Object> deleteById(@PathVariable Long id ) {
+    public ResponseEntity<String> deleteById(@PathVariable Long id ) {
         String dto = postService.deleteById(id);
         return ResponseEntity.ok(dto);
     }
