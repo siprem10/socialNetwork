@@ -25,25 +25,25 @@ public class PostController {
         return ResponseEntity.ok(dto);
     }
 
-    @GetMapping(value = "{id}")
+    @GetMapping(value = "/{id}")
     public ResponseEntity<PostDto> getById(@PathVariable Long id) {
         PostDto dto = postService.getById(id);
         return ResponseEntity.ok(dto);
     }
 
-    @PostMapping(value = "{email}")
+    @PostMapping(value = "/{email}")
     public ResponseEntity<PostDto> create(@PathVariable String email, @RequestBody PostCreateDto postCreateDto) {
         PostDto dto = postService.create(email, postCreateDto);
         return new ResponseEntity<>(dto, HttpStatus.CREATED);
     }
 
-    @PatchMapping(value = "{id}")
+    @PatchMapping(value = "/{id}")
     public ResponseEntity<PostDto> editById(@PathVariable Long id, @RequestBody Map<Object, Object> postEdit) {
         PostDto dto = postService.editById(id, postEdit);
         return ResponseEntity.ok(dto);
     }
 
-    @DeleteMapping(value = "{id}")
+    @DeleteMapping(value = "/{id}")
     public ResponseEntity<String> deleteById(@PathVariable Long id ) {
         String dto = postService.deleteById(id);
         return ResponseEntity.ok(dto);

@@ -38,7 +38,7 @@ public class Post {
     private LocalDateTime updatedDate;
 
 
-    @JsonManagedReference
+    @JsonBackReference
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "profile_id")
