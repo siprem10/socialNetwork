@@ -1,5 +1,6 @@
 package com.ramidev.socialnetwork.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -30,6 +31,7 @@ public class Comment {
     @Column(name = "updated_date")
     private LocalDateTime updatedDate;
 
+    @JsonBackReference
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_id")
