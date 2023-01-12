@@ -1,6 +1,6 @@
 package com.ramidev.socialnetwork.services;
 
-import com.ramidev.socialnetwork.dto.profile.ChangeImageDto;
+import com.ramidev.socialnetwork.dto.profile.ProfileChangeImgDto;
 import com.ramidev.socialnetwork.dto.profile.ProfileDto;
 import com.ramidev.socialnetwork.dto.profile.ProfileEditDto;
 import com.ramidev.socialnetwork.dto.profile.ProfileSimpleDto;
@@ -16,5 +16,5 @@ public interface ProfileService {
     List<ProfileSimpleDto> getAllSimple();
     ProfileDto getByUserEmail(String email);
     ProfileEditDto editByUserEmail(String email, Map<Object, Object> profileEdit);
-    ProfileEditDto changeImage(String email, MultipartFile image, ChangeImageDto type);
+    ProfileEditDto changeImage(String email, MultipartFile image, ProfileChangeImgDto type);
 }

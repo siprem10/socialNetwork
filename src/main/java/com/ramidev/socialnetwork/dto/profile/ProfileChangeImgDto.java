@@ -1,5 +1,5 @@
 package com.ramidev.socialnetwork.dto.profile;
 
-public enum ChangeImageDto {
+public enum ProfileChangeImgDto {
     PIC, COVER
 }

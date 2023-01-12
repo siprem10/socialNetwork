@@ -1,11 +1,9 @@
 package com.ramidev.socialnetwork.controllers;
 
-import com.ramidev.socialnetwork.dto.image.CloudinaryDto;
-import com.ramidev.socialnetwork.dto.profile.ChangeImageDto;
+import com.ramidev.socialnetwork.dto.profile.ProfileChangeImgDto;
 import com.ramidev.socialnetwork.dto.profile.ProfileDto;
 import com.ramidev.socialnetwork.dto.profile.ProfileEditDto;
 import com.ramidev.socialnetwork.dto.profile.ProfileSimpleDto;
-import com.ramidev.socialnetwork.entities.Profile;
 import com.ramidev.socialnetwork.services.ProfileServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -48,7 +46,7 @@ public class ProfileController {
     }
 
     @PostMapping(value = "/changeImage/{email}")
-    public ResponseEntity<ProfileEditDto> changeImage(@PathVariable String email, @RequestParam MultipartFile image, @RequestParam ChangeImageDto type) {
+    public ResponseEntity<ProfileEditDto> changeImage(@PathVariable String email, @RequestParam MultipartFile image, @RequestParam ProfileChangeImgDto type) {
         ProfileEditDto dto = profileService.changeImage(email, image, type);
         return ResponseEntity.ok(dto);
     }

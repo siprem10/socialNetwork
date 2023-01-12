@@ -1,7 +1,7 @@
 package com.ramidev.socialnetwork.services;
 
 import com.ramidev.socialnetwork.dto.image.CloudinaryDto;
-import com.ramidev.socialnetwork.dto.profile.ChangeImageDto;
+import com.ramidev.socialnetwork.dto.profile.ProfileChangeImgDto;
 import com.ramidev.socialnetwork.dto.profile.ProfileDto;
 import com.ramidev.socialnetwork.dto.profile.ProfileEditDto;
 import com.ramidev.socialnetwork.dto.profile.ProfileSimpleDto;
@@ -78,7 +78,7 @@ public class ProfileServiceImpl implements ProfileService {
     }
 
     @Override
-    public ProfileEditDto changeImage(String email, MultipartFile image, ChangeImageDto type) {
+    public ProfileEditDto changeImage(String email, MultipartFile image, ProfileChangeImgDto type) {
         CloudinaryDto cloudinaryDto = submitImage(image, type);
         Map<Object, Object> fieldToEdit = calculateFieldToEdit(type, cloudinaryDto.getSecure_url());
         ProfileEditDto dto = editByUserEmail(email, fieldToEdit);
@@ -86,15 +86,15 @@ public class ProfileServiceImpl implements ProfileService {
         return dto;
     }
 
-    private CloudinaryDto submitImage(MultipartFile image, ChangeImageDto type) {
+    private CloudinaryDto submitImage(MultipartFile image, ProfileChangeImgDto type) {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         String subfolder = "profile/"+email+"/"+type;
         return cloudinaryService.submitImage(image, subfolder);
     }
 
-    private Map<Object, Object> calculateFieldToEdit(ChangeImageDto type, String url){
+    private Map<Object, Object> calculateFieldToEdit(ProfileChangeImgDto type, String url){
         Map<Object, Object> imagesToEdit = new HashMap<>();
-        if(ChangeImageDto.PIC.equals(type)) {
+        if(ProfileChangeImgDto.PIC.equals(type)) {
             imagesToEdit.put("profilePic", url);
         } else {
             imagesToEdit.put("coverPhoto", url);
