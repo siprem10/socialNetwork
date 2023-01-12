@@ -1,4 +1,4 @@
-package com.ramidev.socialnetwork.dto.post;
+package com.ramidev.socialnetwork.dto.profile;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ramidev.socialnetwork.dto.comment.CommentDto;
@@ -13,7 +13,7 @@ import java.util.Set;
 @Getter
 @Setter
 @ToString
-public class PostDto {
+public class ProfileDto_post {
     private Long id;
     private String description;
     private String imageUrl;
@@ -21,6 +21,5 @@ public class PostDto {
     private LocalDateTime createdDate;
     @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
     private LocalDateTime updatedDate;
-    private PostDto_profile profile;
     private Set<CommentDto> comments = new HashSet<>();
 }

@@ -37,24 +37,16 @@ public class Post {
     @Column(name = "updated_date")
     private LocalDateTime updatedDate;
 
-
+    /* Muchos posts pertenecen a 1 perfil */
     @JsonBackReference
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "profile_id")
     private Profile profile;
 
+    /* 1 post le pertenecen muchos comentarios */
     @JsonManagedReference
     @NotNull
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Comment> comments = new HashSet<>();
-
-    public void addComment(Comment comment) {
-        comments.add(comment);
-        comment.setPost(this);
-    }
-    public void removeComment(Comment comment) {
-        comments.remove(comment);
-        comment.setPost(null);
-    }
 }

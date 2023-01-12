@@ -3,6 +3,7 @@ package com.ramidev.socialnetwork.controllers;
 import com.ramidev.socialnetwork.dto.comment.CommentCreateDto;
 import com.ramidev.socialnetwork.dto.comment.CommentDto;
 import com.ramidev.socialnetwork.dto.comment.CommentEditDto;
+import com.ramidev.socialnetwork.dto.comment.CommentPostDto;
 import com.ramidev.socialnetwork.services.CommentServiceImpl;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,14 +33,14 @@ public class CommentController {
         return ResponseEntity.ok(dto);
     }
 
-    @PostMapping(value = "post/{postId}/comment") //x
-    public ResponseEntity<CommentDto> createInPost(@PathVariable Long postId, @Valid @RequestBody CommentCreateDto data) {
-        CommentDto dto = commentService.createInPost(postId, data);
+    @PostMapping(value = "post/{postId}/comment/{email}")
+    public ResponseEntity<CommentPostDto> createInPost(@PathVariable Long postId, @PathVariable String email, @Valid @RequestBody CommentCreateDto data) {
+        CommentPostDto dto = commentService.createInPost(postId, email, data);
         return ResponseEntity.ok(dto);
     }
 
     @PutMapping(value = "post/{postId}/comment/{id}")
-    public ResponseEntity<CommentDto> edit(@PathVariable Long postId, @PathVariable Long id, @RequestBody CommentEditDto data) {
+    public ResponseEntity<CommentDto> edit(@PathVariable Long postId, @PathVariable Long id, @Valid @RequestBody CommentEditDto data) {
         CommentDto dto = commentService.editById(postId, id, data);
         return ResponseEntity.ok(dto);
     }

@@ -1,6 +1,7 @@
 package com.ramidev.socialnetwork.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -31,9 +32,16 @@ public class Comment {
     @Column(name = "updated_date")
     private LocalDateTime updatedDate;
 
-    @JsonBackReference
+    /* Muchos comentarios pertenecen a 1 post */
+    @JsonManagedReference
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_id")
     private Post post;
+
+    /* 1 comentario pertenece a 1 perfil */
+    //@JsonBackReference
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "profile_id", referencedColumnName = "id")
+    private Profile profile;
 }
