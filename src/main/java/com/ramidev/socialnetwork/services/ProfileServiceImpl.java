@@ -7,11 +7,8 @@ import com.ramidev.socialnetwork.dto.profile.ProfileEditDto;
 import com.ramidev.socialnetwork.dto.profile.ProfileSimpleDto;
 import com.ramidev.socialnetwork.entities.Profile;
 import com.ramidev.socialnetwork.exception.NotFoundException;
-import com.ramidev.socialnetwork.mapper.profile.ProfileEditMapper;
 import com.ramidev.socialnetwork.mapper.profile.ProfileMapper;
-import com.ramidev.socialnetwork.mapper.profile.ProfileSimpleMapper;
 import com.ramidev.socialnetwork.repositories.ProfileRepository;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -30,15 +27,7 @@ public class ProfileServiceImpl implements ProfileService {
     private ProfileRepository profileRepository;
 
     @Autowired
-    private ModelMapper mapper;
-
-    @Autowired
-    private ProfileMapper profileMapper;
-    @Autowired
-    private ProfileSimpleMapper profileSimpleMapper;
-
-    @Autowired
-    private ProfileEditMapper profileEditMapper;
+    private ProfileMapper mapper;
 
     @Autowired
     private CloudinaryService cloudinaryService;
@@ -51,7 +40,7 @@ public class ProfileServiceImpl implements ProfileService {
     @Override
     public List<ProfileDto> getAllFull() {
         List<Profile> profile = profileRepository.findAll();
-        return profile.stream().map(data -> profileMapper.toDto(data)).toList();
+        return profile.stream().map(data -> mapper.entityToProfileDto(data)).toList();
     }
 
     @Override
@@ -59,13 +48,13 @@ public class ProfileServiceImpl implements ProfileService {
         Profile profile = profileRepository.findByUserEmail(email)
                 .orElseThrow(() -> new NotFoundException(String.format("Perfil %s no encontrado!", email)));
 
-        return profileMapper.toDto(profile);
+        return mapper.entityToProfileDto(profile);
     }
 
     @Override
     public List<ProfileSimpleDto> getAllSimple() {
         List<Profile> profile = profileRepository.findAll();
-        return profile.stream().map(data -> mapper.map(data, ProfileSimpleDto.class)).toList();
+        return profile.stream().map(data -> mapper.entityToProfileSimpleDto(data)).toList();
     }
 
     @Override
@@ -78,7 +67,8 @@ public class ProfileServiceImpl implements ProfileService {
             field.setAccessible(true);
             ReflectionUtils.setField(field, profile, value);
         });
-        return profileEditMapper.toDto(profileRepository.save(profile));
+
+        return mapper.entityToProfileEditDto(profileRepository.save(profile));
     }
 
     @Override

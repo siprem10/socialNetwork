@@ -1,39 +1,29 @@
 package com.ramidev.socialnetwork.mapper.profile;
 
 import com.ramidev.socialnetwork.dto.profile.ProfileDto;
+import com.ramidev.socialnetwork.dto.profile.ProfileEditDto;
+import com.ramidev.socialnetwork.dto.profile.ProfileSimpleDto;
 import com.ramidev.socialnetwork.entities.Profile;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ProfileMapper  {
-    public Profile toEntity(ProfileDto dto) {
-        Profile profile = new Profile();
-        profile.setId(dto.getId());
-        profile.setProfilePic(dto.getProfilePic());
-        profile.setCoverPhoto(dto.getCoverPhoto());
-        profile.setDescription(dto.getDescription());
-        profile.setCountry(dto.getCountry());
-        profile.setCity(dto.getCity());
-        profile.setHobbie(dto.getHobbie());
-        profile.setJob(dto.getJob());
-        profile.setUser(dto.getUser());
-        return profile;
+public class ProfileMapper {
+
+    @Autowired
+    private ModelMapper mapper;
+
+    public ProfileDto entityToProfileDto(Profile data) {
+        return mapper.map(data, ProfileDto.class);
     }
 
-    public ProfileDto toDto(Profile profile) {
-        ProfileDto dto = new ProfileDto();
-        dto.setId(profile.getId());
-        dto.setProfilePic(profile.getProfilePic());
-        dto.setCoverPhoto(profile.getCoverPhoto());
-        dto.setDescription(profile.getDescription());
-        dto.setCountry(profile.getCountry());
-        dto.setCity(profile.getCity());
-        dto.setHobbie(profile.getHobbie());
-        dto.setJob(profile.getJob());
-        dto.setUser(profile.getUser());
-        dto.setPosts(profile.getPosts());
-        dto.setFriendShips(profile.getFriendShips());
-        return dto;
+    public ProfileEditDto entityToProfileEditDto(Profile data) {
+        return mapper.map(data, ProfileEditDto.class);
+    }
+
+    public ProfileSimpleDto entityToProfileSimpleDto(Profile data) {
+        return mapper.map(data, ProfileSimpleDto.class);
     }
 
 }
