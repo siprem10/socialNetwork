@@ -65,7 +65,6 @@ public class User {
     @Column(name = "updated_date")
     private LocalDateTime updatedDate;
 
-    @JsonIgnore // x
     @NotNull
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "profile_id", referencedColumnName = "id")
