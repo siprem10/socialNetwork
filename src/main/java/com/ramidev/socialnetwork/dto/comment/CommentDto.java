@@ -1,6 +1,6 @@
 package com.ramidev.socialnetwork.dto.comment;
 
-import com.ramidev.socialnetwork.entities.Profile;
+import com.ramidev.socialnetwork.dto.post.PostDto_profile;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -13,5 +13,5 @@ public class CommentDto {
     private String description;
     private LocalDateTime createdDate;
     private LocalDateTime updatedDate;
-    private Profile profile;
+    private PostDto_profile profile;
 }
