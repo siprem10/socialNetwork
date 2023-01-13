@@ -20,7 +20,6 @@ public class CommentController {
     @Autowired
     private CommentServiceImpl commentService;
 
-    // me serviria alreves no ver cada comentario individual
     @GetMapping
     public ResponseEntity<List<CommentDto>> getAll() {
         List<CommentDto> dto = commentService.getAll();

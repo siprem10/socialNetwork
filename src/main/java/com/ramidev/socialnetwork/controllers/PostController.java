@@ -48,5 +48,4 @@ public class PostController {
         String dto = postService.deleteById(id);
         return ResponseEntity.ok(dto);
     }
-
 }

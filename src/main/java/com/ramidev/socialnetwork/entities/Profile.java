@@ -43,11 +43,11 @@ public class Profile {
     @OneToOne(mappedBy = "profile")
     private User user;
 
+    /* 1 perfil le pertenecen muchas solicitudes */
     @OneToMany(mappedBy = "profile", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<FriendShip> friendShips = new HashSet<>();
 
     /* 1 perfil le pertenecen muchos posts */
-
     @OneToMany(mappedBy = "profile", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Post> posts = new HashSet<>();
 

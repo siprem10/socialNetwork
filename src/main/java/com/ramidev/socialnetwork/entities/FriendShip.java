@@ -24,8 +24,9 @@ public class FriendShip {
     @Column(name = "is_acepted")
     private boolean isAccepted;
 
+    /* Muchas solicitudes le pertenecen a un Perfil */
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "sender_id_test")
+    @JoinColumn(name = "profile_id")
     private Profile profile;
 }
